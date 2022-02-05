@@ -1,4 +1,4 @@
-import fs from 'fs'
+import { readFile } from 'fs/promises';
 import yargs from 'yargs'
 import { makeMaskFilter, makeInverseMaskFilter, makeMasks } from './masks.js'
 import {
@@ -7,8 +7,7 @@ import {
     makeIncludesAndExcludes,
 } from './includes-excludes.js'
 
-const text = fs.readFileSync('./words.txt', 'utf-8')
-const words = text.split('\n')
+const words = JSON.parse(await readFile(new URL('./dictionary.json', import.meta.url)));
 
 const argv = yargs(process.argv.slice(2)).options({
     guesses: {
